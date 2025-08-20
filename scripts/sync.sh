@@ -40,8 +40,8 @@ while true; do
         cp "$CLAUDE_DIR/CLAUDE_CODE_REFERENCE.md" ./ 2>/dev/null && log "✓ Copied CLAUDE_CODE_REFERENCE.md" || error_log "Failed to copy CLAUDE_CODE_REFERENCE.md"
     fi
     
-    if [ -f "$CLAUDE_DIR/fetch-claude-docs.sh" ]; then
-        cp "$CLAUDE_DIR/fetch-claude-docs.sh" ./ 2>/dev/null && chmod +x fetch-claude-docs.sh && log "✓ Copied fetch-claude-docs.sh" || error_log "Failed to copy fetch-claude-docs.sh"
+    if [ -f "$HOME/scripts/fetch-claude-docs.sh" ]; then
+        cp "$HOME/scripts/fetch-claude-docs.sh" ./ 2>/dev/null && chmod +x fetch-claude-docs.sh && log "✓ Copied fetch-claude-docs.sh" || error_log "Failed to copy fetch-claude-docs.sh"
     fi
     
     # Extraer solo sección mcpServers de ~/.claude.json
