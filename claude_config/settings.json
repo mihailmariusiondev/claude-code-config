@@ -100,9 +100,9 @@
       "Bash(* | wc*)",
       "Bash(* | sort*)",
       "Bash(* | uniq*)",
-      "mcp__zen__analyze",
       "mcp__zen__analyze"
-    ]
+    ],
+    "deny": []
   },
   "enableAllProjectMcpServers": true,
   "statusLine": {
