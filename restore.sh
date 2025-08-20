@@ -64,10 +64,40 @@ elif [ -f "mcpServers.json" ]; then
     echo "⚠ ~/.claude.json no existe aún, MCPs se aplicarán cuando Claude Code cree el archivo"
 fi
 
+# Instalar servicio systemd automáticamente
 echo ""
-echo "🎉 Configuración restaurada correctamente!"
+echo "🔧 Instalando servicio systemd..."
+
+SERVICE_FILE="/etc/systemd/system/claude-sync.service"
+
+# Crear archivo de servicio
+sudo tee "$SERVICE_FILE" > /dev/null << 'EOF'
+[Unit]
+Description=Claude Code Config Auto-Sync Service
+After=network.target
+
+[Service]
+Type=simple
+User=mihai-usl
+Group=mihai-usl
+WorkingDirectory=/home/mihai-usl/repos/personal/claude-code-config
+ExecStart=/home/mihai-usl/repos/personal/claude-code-config/sync.sh
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Recargar systemd, habilitar e iniciar servicio
+sudo systemctl daemon-reload
+sudo systemctl enable claude-sync.service
+sudo systemctl start claude-sync.service
+
 echo ""
-echo "Próximos pasos:"
-echo "1. Ejecutar 'claude' para inicializar Claude Code si es necesario"
-echo "2. Ejecutar './sync.sh' para activar sincronización automática"
+echo "🎉 Sistema completo instalado!"
 echo ""
+echo "📊 Estado del servicio:"
+sudo systemctl status claude-sync.service --no-pager -l
