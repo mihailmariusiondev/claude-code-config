@@ -1,41 +1,4 @@
 {
-  "context7": {
-    "type": "stdio",
-    "command": "npx",
-    "args": [
-      "-y",
-      "@upstash/context7-mcp"
-    ],
-    "env": {}
-  },
-  "gemini-mcp-tool": {
-    "type": "stdio",
-    "command": "npx",
-    "args": [
-      "-y",
-      "gemini-mcp-tool"
-    ],
-    "env": {}
-  },
-  "mcp-feedback-enhanced": {
-    "type": "stdio",
-    "command": "uvx",
-    "args": [
-      "mcp-feedback-enhanced@latest"
-    ],
-    "env": {}
-  },
-  "server-perplexity-ask": {
-    "type": "stdio",
-    "command": "npx",
-    "args": [
-      "-y",
-      "server-perplexity-ask@0.1.3"
-    ],
-    "env": {
-      "PERPLEXITY_API_KEY": "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"
-    }
-  },
   "zen": {
     "type": "stdio",
     "command": "/home/mihai-usl/mcp-servers/zen-mcp-server/.zen_venv/bin/python",
