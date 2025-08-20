@@ -6,7 +6,7 @@ Servicio systemd que mantiene tu configuración Claude Code siempre sincronizada
 
 ## 🎯 Características
 
-- ✅ **Sincronización automática** cada 1 minuto
+- ✅ **Sincronización automática** cada 5 minutos
 - ✅ **Auto-inicio** al arrancar WSL/Linux
 - ✅ **Auto-restart** si el proceso falla
 - ✅ **Logging completo** con systemd
@@ -88,7 +88,7 @@ tail -f ~/repos/personal/claude-code-config/logs/error.log
 
 | Script | Ubicación | Descripción |
 |--------|-----------|-------------|
-| `sync.sh` | `scripts/` | **Script principal** - Sincronización cada 1 minuto |
+| `sync.sh` | `scripts/` | **Script principal** - Sincronización cada 5 minutos |
 | `restore.sh` | `scripts/` | **Restaurador** - Aplica configuración en nueva máquina |
 | `install-service.sh` | `scripts/` | **Instalador** - Configura servicio systemd |
 
@@ -96,13 +96,13 @@ tail -f ~/repos/personal/claude-code-config/logs/error.log
 
 ```mermaid
 graph LR
-    A[Cada 1 min] --> B[Copia archivos ~/.claude/ → tmp/]
-    B --> C[Sync tmp/ → claude_config/]
-    C --> D[Extrae MCPs]
+    A[Cada 5 min] --> B[Copia archivos ~/.claude/ → tmp/staging]
+    B --> C[Procesa staging → tmp/processed]
+    C --> D[Sync tmp/ → claude_config/]
     D --> E[Detecta cambios]
     E --> F{¿Hay cambios?}
     F -->|Sí| G[Git commit + force push]
-    F -->|No| H[Esperar 1 min]
+    F -->|No| H[Esperar 5 min]
     G --> H
     H --> A
 ```
@@ -137,8 +137,8 @@ ls -la ~/repos/personal/claude-code-config/sync.sh
 
 ### Error de MCPs
 ```bash
-# Test manual extracción
-jq '.mcpServers' ~/.claude.json
+# Test manual extracción (método alternativo sin jq)
+python3 -c "import json; print(json.dumps(json.load(open('~/.claude.json'.replace('~', '${HOME}')))['mcpServers'], indent=2))"
 
 # Ver logs específicos
 grep "mcpServers" ~/repos/personal/claude-code-config/logs/sync.log
@@ -172,8 +172,10 @@ find . -name "*.json" -o -name "*.md" -o -name "*.sh" | xargs ls -lt | head -5
 
 ### Cambiar frecuencia de sync
 ```bash
-# Editar scripts/sync.sh línea 110
-sed -i 's/sleep 60/sleep 300/' scripts/sync.sh  # Cambiar a 5 minutos
+# Editar scripts/sync.sh línea 141 (actualmente 5 minutos)
+sed -i 's/sleep 300/sleep 600/' scripts/sync.sh  # Cambiar a 10 minutos
+# o para volver a 1 minuto:
+sed -i 's/sleep 300/sleep 60/' scripts/sync.sh   # Cambiar a 1 minuto
 sudo systemctl restart claude-sync.service
 ```
 
