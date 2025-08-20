@@ -46,11 +46,17 @@ while true; do
     
     # Extraer solo sección mcpServers de ~/.claude.json
     if [ -f "$HOME/.claude.json" ]; then
-        if jq '.mcpServers // {}' "$HOME/.claude.json" > mcpServers.json 2>/dev/null; then
-            log "✓ Extracted mcpServers.json"
+        # Verificar que el archivo no esté siendo usado por otro proceso
+        if [ -r "$HOME/.claude.json" ]; then
+            if timeout 5 jq '.mcpServers // {}' "$HOME/.claude.json" > mcpServers.json 2>/dev/null; then
+                log "✓ Extracted mcpServers.json ($(jq length mcpServers.json) servers)"
+            else
+                echo "{}" > mcpServers.json
+                error_log "Failed to extract mcpServers (timeout or parse error), created empty file"
+            fi
         else
             echo "{}" > mcpServers.json
-            error_log "Failed to extract mcpServers, created empty file"
+            error_log "Cannot read ~/.claude.json (permission denied), created empty file"
         fi
     else
         echo "{}" > mcpServers.json
