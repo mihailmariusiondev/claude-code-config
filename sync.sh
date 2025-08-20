@@ -85,6 +85,6 @@ while true; do
         log "💤 No changes detected"
     fi
     
-    # Esperar 1 minuto
-    sleep 60
+    # Esperar 5 minutos
+    sleep 300
 done

@@ -1,0 +1,19 @@
+# Logs
+logs/
+*.log
+
+# Archivos temporales
+*.tmp
+*.bak
+nohup.out
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
