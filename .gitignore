@@ -15,7 +15,5 @@ Thumbs.db
 *.swo
 *~
 
-# Logs externos (mantener logs del servicio)
-logs/*.json
-logs/mcp-*.log
-logs/test.log
+# Logs (ignorar todos los logs)
+logs/
