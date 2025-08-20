@@ -52,18 +52,27 @@ while true; do
         cp "$CLAUDE_DIR/CLAUDE_CODE_REFERENCE.md" "$TMP_DIR/" 2>/dev/null && log "✓ Staged CLAUDE_CODE_REFERENCE.md" || error_log "Failed to stage CLAUDE_CODE_REFERENCE.md"
     fi
     
-    # Extraer solo sección mcpServers de ~/.claude.json a tmp/
+    # Primero copiar ~/.claude.json completo a staging, luego procesar
     if [ -f "$HOME/.claude.json" ]; then
         if [ -r "$HOME/.claude.json" ]; then
-            if timeout 5 jq '.mcpServers // {}' "$HOME/.claude.json" > "$TMP_DIR/mcpServers.json" 2>/dev/null; then
-                log "✓ Staged mcpServers.json ($(jq length "$TMP_DIR/mcpServers.json") servers)"
+            # SOLO COPIAR - sin procesar
+            if cp "$HOME/.claude.json" "$TMP_DIR/claude.json.staging" 2>/dev/null; then
+                log "✓ Staged claude.json.staging"
+                # Ahora extraer mcpServers DESDE LA COPIA staging
+                if timeout 5 python3 -c "import json; data=json.load(open('$TMP_DIR/claude.json.staging')); json.dump(data.get('mcpServers', {}), open('$TMP_DIR/mcpServers.json', 'w'))" 2>/dev/null; then
+                    server_count=$(python3 -c "import json; print(len(json.load(open('$TMP_DIR/mcpServers.json'))))" 2>/dev/null || echo "unknown")
+                    log "✓ Extracted mcpServers.json from staging ($server_count servers)"
+                else
+                    echo "{}" > "$TMP_DIR/mcpServers.json"
+                    error_log "Failed to extract mcpServers from staging copy (timeout or parse error), created empty file"
+                fi
             else
                 echo "{}" > "$TMP_DIR/mcpServers.json"
-                error_log "Failed to extract mcpServers (timeout or parse error), created empty file"
+                error_log "Failed to copy ~/.claude.json to staging, created empty mcpServers.json"
             fi
         else
             echo "{}" > "$TMP_DIR/mcpServers.json"
-            error_log "Cannot read ~/.claude.json (permission denied), created empty file"
+            error_log "Cannot read ~/.claude.json (permission denied), created empty mcpServers.json"
         fi
     else
         echo "{}" > "$TMP_DIR/mcpServers.json"
@@ -128,8 +137,8 @@ while true; do
         log "💤 No changes detected"
     fi
     
-    # Esperar 1 minuto
-    log "⏱️ Waiting 1 minute until next sync..."
-    sleep 60
+    # Esperar 5 minutos
+    log "⏱️ Waiting 5 minutes until next sync..."
+    sleep 300
     log "🔄 Starting next sync cycle..."
 done
