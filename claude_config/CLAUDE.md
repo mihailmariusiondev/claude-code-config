@@ -7,10 +7,11 @@
 
 ## Rutas Importantes del Sistema
 
-- **~/repos/personal** - Repositorios personales, proyectos propios, experimentos y desarrollo independiente
-- **~/repos/laboral** - Repositorios relacionados con trabajo/empresa, proyectos profesionales y colaboraciones
-- **~/mcp-servers** - MCP servers clonados manualmente cuando npx/ux fallan, no confundir con MCPs configurados en ~/.claude.json
-- **~/scripts** - Scripts bash/python/utilidades globales para crontabs, automatización, herramientas del sistema
+- **~/repos/personal** - Repositorios personales: proyectos propios, experimentos, desarrollo independiente, side projects
+- **~/repos/laboral** - Repositorios laborales: proyectos empresa, trabajo profesional, colaboraciones corporativas
+- **~/mcp-servers** - MCP servers clonados localmente: cuando npx/npm install falla, repositorios manuales (≠ MCPs en ~/.claude.json)
+- **~/scripts** - Scripts sistema: bash/python para crontabs, automatización, utilidades globales, herramientas personales
+- **~/docs** - Documentación personal: apuntes, referencias, guías, manuales, conocimiento acumulado
 
 ## Claude Code Documentation Reference
 
