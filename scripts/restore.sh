@@ -3,7 +3,7 @@
 # Claude Code Config Restore Script
 # Restaura configuración en nueva máquina
 
-REPO_DIR="/home/mihai-usl/repos/personal/claude-code-config"
+REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CLAUDE_DIR="$HOME/.claude"
 CONFIG_DIR="$REPO_DIR/claude_config"
 
