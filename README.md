@@ -6,12 +6,13 @@ Servicio systemd que mantiene tu configuración Claude Code siempre sincronizada
 
 ## 🎯 Características
 
-- ✅ **Sincronización automática** cada 5 minutos
+- ✅ **Sincronización automática** cada 1 minuto
 - ✅ **Auto-inicio** al arrancar WSL/Linux
 - ✅ **Auto-restart** si el proceso falla
 - ✅ **Logging completo** con systemd
 - ✅ **Restauración fácil** en nuevas máquinas
 - ✅ **Solo configuración** (sin datos sensibles)
+- ✅ **Estructura organizada** con staging y scripts
 
 ## 📁 Archivos Sincronizados
 
@@ -19,7 +20,6 @@ Servicio systemd que mantiene tu configuración Claude Code siempre sincronizada
 - `settings.json` - Configuración global (permisos, statusLine, hooks)
 - `CLAUDE.md` - Instrucciones globales personales  
 - `CLAUDE_CODE_REFERENCE.md` - Documentación personal
-- `fetch-claude-docs.sh` - Script para actualizar docs
 - `commands/` - Comandos slash personalizados
 - `agents/` - Subagentes especializados
 
@@ -42,17 +42,17 @@ git clone https://github.com/mihailmariusiondev/claude-code-config.git
 cd claude-code-config
 
 # 3. Restaurar configuración
-./restore.sh
+./scripts/restore.sh
 
 # 4. Instalar servicio automático
-./install-service.sh
+./scripts/install-service.sh
 ```
 
 ### Máquina Existente
 
 ```bash
 cd ~/repos/personal/claude-code-config
-./install-service.sh
+./scripts/install-service.sh
 ```
 
 ## 🔧 Gestión del Servicio
@@ -86,12 +86,11 @@ tail -f ~/repos/personal/claude-code-config/logs/error.log
 
 ## 📜 Scripts Disponibles
 
-| Script | Descripción |
-|--------|-------------|
-| `sync.sh` | **Script principal** - Sincronización cada 5 minutos |
-| `restore.sh` | **Restaurador** - Aplica configuración en nueva máquina |
-| `install-service.sh` | **Instalador** - Configura servicio systemd |
-| `test-system.sh` | **Tester** - Verifica funcionamiento completo |
+| Script | Ubicación | Descripción |
+|--------|-----------|-------------|
+| `sync.sh` | `scripts/` | **Script principal** - Sincronización cada 1 minuto |
+| `restore.sh` | `scripts/` | **Restaurador** - Aplica configuración en nueva máquina |
+| `install-service.sh` | `scripts/` | **Instalador** - Configura servicio systemd |
 
 ## 🔄 Flujo de Sincronización
 
