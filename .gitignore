@@ -1,8 +1,5 @@
-# Logs
-logs/
-*.log
-
 # Archivos temporales
+tmp/
 *.tmp
 *.bak
 nohup.out
@@ -17,5 +14,8 @@ Thumbs.db
 *.swp
 *.swo
 *~
-tmp
-a
+
+# Logs externos (mantener logs del servicio)
+logs/*.json
+logs/mcp-*.log
+logs/test.log
