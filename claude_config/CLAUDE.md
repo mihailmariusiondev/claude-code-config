@@ -5,6 +5,15 @@
 - **Text search** → `rg "pattern" <path>`
 - **Code structure** → `ast-grep run -l <lang> -p '<pattern>' <path>`
 
+## Rutas Importantes del Sistema
+
+**Rutas Windows desde WSL**: `\\wsl.localhost\Ubuntu\home\mihai-usl\`
+
+- **repos/personal** - Repositorios personales y proyectos propios
+- **repos/laboral** - Repositorios relacionados con trabajo/empresa
+- **mcp-servers** - MCP servers clonados manualmente (cuando npx/ux no funcionan)
+- **scripts** - Todos los scripts bash/python/utilidades (crontabs, automatización, herramientas)
+
 ## Claude Code Documentation Reference
 
 **Archivos Claude Code (cuando el usuario tenga dudas sobre configuración, uso, features, troubleshooting):**
