@@ -56,30 +56,12 @@
     ],
     "env": {}
   },
-  "browser-tools-mcp": {
-    "type": "stdio",
-    "command": "npx",
-    "args": [
-      "-y",
-      "@agentdeskai/browser-tools-mcp@1.2.0"
-    ],
-    "env": {}
-  },
   "youtube-transcript": {
     "type": "stdio",
     "command": "npx",
     "args": [
       "-y",
       "@kimtaeyoon83/mcp-server-youtube-transcript"
-    ],
-    "env": {}
-  },
-  "puppeteer": {
-    "type": "stdio",
-    "command": "npx",
-    "args": [
-      "-y",
-      "puppeteer-mcp-server"
     ],
     "env": {}
   }
