@@ -115,11 +115,13 @@ while true; do
     log "🔄 Checking for commits to push..."
     if git log --oneline -1 2>/dev/null | grep -q .; then
         log "📤 Commits found, attempting force push to GitHub..."
-        # Push directo con --force
-        if git push --force origin main 2>/dev/null; then
+        # Push directo con --force - MOSTRAR EL ERROR
+        push_output=$(git push --force origin main 2>&1)
+        if [ $? -eq 0 ]; then
             log "🚀 Changes force-pushed to GitHub successfully"
         else
             error_log "Failed to force push to GitHub"
+            error_log "Git push error output: $push_output"
             log "🔍 Debugging push failure..."
             git remote -v | while read line; do log "Remote: $line"; done
             git status --porcelain | while read line; do log "Status: $line"; done
