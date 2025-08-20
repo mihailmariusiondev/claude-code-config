@@ -46,22 +46,18 @@ if [ -f "$CONFIG_DIR/mcpServers.json" ] && [ -f "$HOME/.claude.json" ]; then
     # Crear backup del archivo original
     cp "$HOME/.claude.json" "$HOME/.claude.json.backup"
     
-    # Método básico: usar sed para reemplazar la sección mcpServers
-    # Extraer contenido de mcpServers.json (sin las llaves externas)
-    MCP_CONTENT=$(sed '1d;$d' "$CONFIG_DIR/mcpServers.json" | sed 's/^/  /')
+    # Método simple: reemplazar toda la sección mcpServers
+    # Extraer contenido hasta mcpServers (excluyendo la línea "mcpServers")
+    sed '/^  "mcpServers":/,$d' "$HOME/.claude.json" > /tmp/claude-temp.json
     
-    # Crear archivo temporal con la estructura correcta
-    cat > /tmp/claude-temp.json << EOF
-{
-$(head -n -2 "$HOME/.claude.json" | tail -n +2 | sed '$s/,$//')
-  "mcpServers": {
-$MCP_CONTENT
-  }
-}
-EOF
+    # Agregar nueva sección mcpServers desde el archivo de configuración
+    echo '  "mcpServers": {' >> /tmp/claude-temp.json
+    sed '1d;$d' "$CONFIG_DIR/mcpServers.json" | sed 's/^/  /' >> /tmp/claude-temp.json
+    echo '  }' >> /tmp/claude-temp.json
+    echo '}' >> /tmp/claude-temp.json
     
-    # Verificar que el archivo temporal es válido (contiene mcpServers)
-    if grep -q "mcpServers" /tmp/claude-temp.json; then
+    # Verificar que el archivo temporal es válido
+    if grep -q "mcpServers" /tmp/claude-temp.json && [ -s /tmp/claude-temp.json ]; then
         mv /tmp/claude-temp.json "$HOME/.claude.json"
         echo "✓ MCP Servers restaurados en ~/.claude.json"
     else
