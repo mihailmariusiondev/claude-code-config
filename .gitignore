@@ -15,5 +15,8 @@ Thumbs.db
 *.swo
 *~
 
-# Logs (ignorar todos los logs)
-logs/sync.log
+# Logs (ignorar TODAS las carpetas logs)
+logs/
+**/logs/
+*.log
+*.log.*
