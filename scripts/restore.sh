@@ -46,8 +46,32 @@ if [ -f "$CONFIG_DIR/mcpServers.json" ] && [ -f "$HOME/.claude.json" ]; then
     # Crear backup del archivo original
     cp "$HOME/.claude.json" "$HOME/.claude.json.backup"
     
-    # Fusionar mcpServers
-    jq --argjson mcps "$(cat "$CONFIG_DIR/mcpServers.json")" '.mcpServers = $mcps' "$HOME/.claude.json" > /tmp/claude-temp.json
+    # Fusionar mcpServers usando Python (más universal que jq)
+    python3 -c "
+import json
+import sys
+
+try:
+    # Leer archivo principal
+    with open('$HOME/.claude.json', 'r') as f:
+        main_config = json.load(f)
+    
+    # Leer mcpServers
+    with open('$CONFIG_DIR/mcpServers.json', 'r') as f:
+        mcp_servers = json.load(f)
+    
+    # Fusionar
+    main_config['mcpServers'] = mcp_servers
+    
+    # Escribir resultado
+    with open('/tmp/claude-temp.json', 'w') as f:
+        json.dump(main_config, f, indent=2)
+    
+    print('success')
+except Exception as e:
+    print(f'error: {e}', file=sys.stderr)
+    sys.exit(1)
+"
     
     if [ $? -eq 0 ]; then
         mv /tmp/claude-temp.json "$HOME/.claude.json"
