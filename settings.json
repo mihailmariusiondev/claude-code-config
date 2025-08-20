@@ -12,7 +12,6 @@
       "TodoRead()",
       "TodoWrite(**)",
       "Task(**)",
-      
       "Bash(git status*)",
       "Bash(git log*)",
       "Bash(git diff*)",
@@ -21,7 +20,6 @@
       "Bash(git branch*)",
       "Bash(git remote -v*)",
       "Bash(git config --get*)",
-      
       "Bash(ls*)",
       "Bash(cat *)",
       "Bash(less *)",
@@ -33,7 +31,6 @@
       "Bash(pwd*)",
       "Bash(wc*)",
       "Bash(diff *)",
-      
       "Bash(cd *)",
       "Bash(mv *)",
       "Bash(cp *)",
@@ -42,18 +39,15 @@
       "Bash(ln -s *)",
       "Bash(chmod +* *)",
       "Bash(chmod -* *)",
-      
       "Bash(export *)",
       "Bash(env *)",
       "Bash(printenv *)",
       "Bash(history *)",
       "Bash(alias *)",
-      
       "Bash(tr *)",
       "Bash(sort *)",
       "Bash(uniq *)",
       "Bash(cut *)",
-      
       "Bash(ps *)",
       "Bash(jobs *)",
       "Bash(whoami *)",
@@ -62,60 +56,50 @@
       "Bash(df *)",
       "Bash(du *)",
       "Bash(free *)",
-      
       "Bash(sed -n*)",
       "Bash(awk*)",
       "Bash(cut*)",
       "Bash(sort*)",
       "Bash(uniq*)",
-      
       "Bash(basename *)",
       "Bash(dirname *)",
       "Bash(realpath *)",
       "Bash(readlink *)",
-      
       "Bash(curl*)",
       "Bash(jq*)",
       "Bash(yq eval*)",
-      
       "Bash(python*)",
       "Bash(python3*)",
       "Bash(node*)",
       "Bash(npm list*)",
       "Bash(npm run*)",
       "Bash(npx*)",
-      
       "Bash(black --check*)",
       "Bash(black --diff*)",
       "Bash(pylint*)",
       "Bash(flake8*)",
       "Bash(mypy*)",
       "Bash(eslint*)",
-      
       "Bash(pytest*)",
       "Bash(make test*)",
       "Bash(npm test*)",
-      
       "Bash(make -n*)",
-      
       "Bash(man *)",
       "Bash(pydoc*)",
       "Bash(which *)",
       "Bash(type *)",
-      
       "Bash(echo *)",
       "Bash(printf *)",
       "Bash(test *)",
       "Bash(true*)",
       "Bash(false*)",
-      
       "Bash(* | grep*)",
       "Bash(* | jq*)",
       "Bash(* | head*)",
       "Bash(* | tail*)",
       "Bash(* | wc*)",
       "Bash(* | sort*)",
-      "Bash(* | uniq*)"
+      "Bash(* | uniq*)",
     ],
     "deny": [],
     "defaultMode": "acceptEdits"
