@@ -92,11 +92,11 @@ while true; do
         fi
     fi
     
-    # Verificar si hay commits pendientes de push
-    if git log origin/main..HEAD --oneline 2>/dev/null | grep -q .; then
+    # Siempre intentar push si hay commits locales (sin depender de origin/main)
+    if git log --oneline -1 2>/dev/null | grep -q .; then
         # Push directo con --force
         if git push --force origin main 2>/dev/null; then
-            log "🚀 Changes force-pushed to GitHub successfully ($(git log origin/main..HEAD --oneline 2>/dev/null | wc -l) commits)"
+            log "🚀 Changes force-pushed to GitHub successfully"
         else
             error_log "Failed to force push to GitHub"
         fi
