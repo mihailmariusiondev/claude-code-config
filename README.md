@@ -96,14 +96,15 @@ tail -f ~/repos/personal/claude-code-config/logs/error.log
 
 ```mermaid
 graph LR
-    A[Cada 5 min] --> B[Copia archivos ~/.claude/]
-    B --> C[Extrae MCPs]
-    C --> D[Detecta cambios]
-    D --> E{¿Hay cambios?}
-    E -->|Sí| F[Git commit + push]
-    E -->|No| G[Esperar 5 min]
-    F --> G
-    G --> A
+    A[Cada 1 min] --> B[Copia archivos ~/.claude/ → tmp/]
+    B --> C[Sync tmp/ → claude_config/]
+    C --> D[Extrae MCPs]
+    D --> E[Detecta cambios]
+    E --> F{¿Hay cambios?}
+    F -->|Sí| G[Git commit + force push]
+    F -->|No| H[Esperar 1 min]
+    G --> H
+    H --> A
 ```
 
 ## 🔒 Seguridad
@@ -171,43 +172,44 @@ find . -name "*.json" -o -name "*.md" -o -name "*.sh" | xargs ls -lt | head -5
 
 ### Cambiar frecuencia de sync
 ```bash
-# Editar sync.sh línea 89
-sed -i 's/sleep 300/sleep 600/' sync.sh  # Cambiar a 10 minutos
+# Editar scripts/sync.sh línea 110
+sed -i 's/sleep 60/sleep 300/' scripts/sync.sh  # Cambiar a 5 minutos
 sudo systemctl restart claude-sync.service
 ```
 
 ### Añadir archivos extra
-Modificar `sync.sh` en la sección de copia de archivos:
+Modificar `scripts/sync.sh` en la sección de copia de archivos:
 ```bash
 if [ -f "$CLAUDE_DIR/mi-archivo.json" ]; then
-    cp "$CLAUDE_DIR/mi-archivo.json" ./
+    cp "$CLAUDE_DIR/mi-archivo.json" "$TMP_DIR/"
 fi
 ```
 
 ## 🏗️ Arquitectura
 
 ```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   ~/.claude/    │    │  Local Git Repo │    │   GitHub Repo   │
-│   (Original)    │───▶│   (Staging)      │───▶│   (Backup)      │
-│                 │    │                  │    │                 │
-│ • settings.json │    │ • settings.json  │    │ • settings.json │
-│ • CLAUDE.md     │    │ • CLAUDE.md      │    │ • CLAUDE.md     │
-│ • MCPs in .json │    │ • mcpServers.json│    │ • mcpServers.json│
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-        │                       │                       │
-        │                       │                       │
-   systemd service          git commits            versioning
-   (every 5 min)           (auto-generated)       (full history)
+┌─────────────────┐    ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   ~/.claude/    │    │      tmp/       │    │  claude_config/  │    │   GitHub Repo   │
+│   (Original)    │───▶│   (Staging)     │───▶│    (Tracked)     │───▶│   (Backup)      │
+│                 │    │                 │    │                  │    │                 │
+│ • settings.json │    │ • settings.json │    │ • settings.json  │    │ • settings.json │
+│ • CLAUDE.md     │    │ • CLAUDE.md     │    │ • CLAUDE.md      │    │ • CLAUDE.md     │
+│ • MCPs in .json │    │ • mcpServers.json│   │ • mcpServers.json│    │ • mcpServers.json│
+└─────────────────┘    └─────────────────┘    └──────────────────┘    └─────────────────┘
+        │                       │                       │                       │
+        │                       │                       │                       │
+   systemd service          rsync sync            git commits            force push
+   (every 1 min)           (tmp→config)         (auto-generated)       (full history)
 ```
 
 ## 📊 Estadísticas
 
 - **Repositorio**: https://github.com/mihailmariusiondev/claude-code-config
-- **Frecuencia sync**: 5 minutos  
+- **Frecuencia sync**: 1 minuto  
 - **Uptime objetivo**: 99.9%
 - **Tiempo recuperación**: < 2 minutos
 - **Archivos monitoreados**: ~10-15
+- **Estructura**: 2 niveles (staging + tracked)
 
 ## 🤝 Contribución
 
@@ -223,6 +225,7 @@ Este es un repositorio personal de configuración. Para mejoras:
 
 - **v1.0.0** (2025-08-20) - Implementación inicial con servicio systemd
 - **v1.0.1** (2025-08-20) - Correcciones rutas y manejo errores MCPs
+- **v2.0.0** (2025-08-20) - Reorganización estructura: scripts/, staging, 1 min sync
 
 ## 📄 Licencia
 
