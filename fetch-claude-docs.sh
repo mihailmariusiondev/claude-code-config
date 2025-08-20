@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script para juntar toda la documentación de Claude Code en CLAUDE_RAW_DOCS.md
-# Ejecutar con: bash ~/.claude/fetch-claude-docs.sh
+# Ejecutar con: bash ~/scripts/fetch-claude-docs.sh
 
 echo "🔄 Fetching Claude Code documentation..."
 
