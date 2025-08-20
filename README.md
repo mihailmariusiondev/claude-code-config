@@ -194,20 +194,22 @@ fi
 │   ~/.claude/    │    │      tmp/       │    │  claude_config/  │    │   GitHub Repo   │
 │   (Original)    │───▶│   (Staging)     │───▶│    (Tracked)     │───▶│   (Backup)      │
 │                 │    │                 │    │                  │    │                 │
-│ • settings.json │    │ • settings.json │    │ • settings.json  │    │ • settings.json │
-│ • CLAUDE.md     │    │ • CLAUDE.md     │    │ • CLAUDE.md      │    │ • CLAUDE.md     │
-│ • MCPs in .json │    │ • mcpServers.json│   │ • mcpServers.json│    │ • mcpServers.json│
+│ • settings.json │    │ • *.staging     │    │ • settings.json  │    │ • settings.json │
+│ • CLAUDE.md     │    │ • *.json        │    │ • CLAUDE.md      │    │ • CLAUDE.md     │
+│ • ~/.claude.json│    │ • mcpServers.json│   │ • mcpServers.json│    │ • mcpServers.json│
 └─────────────────┘    └─────────────────┘    └──────────────────┘    └─────────────────┘
         │                       │                       │                       │
         │                       │                       │                       │
-   systemd service          rsync sync            git commits            force push
-   (every 1 min)           (tmp→config)         (auto-generated)       (full history)
+   systemd service      staging process         git commits            force push
+   (every 5 min)      (copy→extract→sync)    (auto-generated)       (full history)
+                       ⚠️ NEVER touches         
+                         originals directly
 ```
 
 ## 📊 Estadísticas
 
 - **Repositorio**: https://github.com/mihailmariusiondev/claude-code-config
-- **Frecuencia sync**: 1 minuto  
+- **Frecuencia sync**: 5 minutos  
 - **Uptime objetivo**: 99.9%
 - **Tiempo recuperación**: < 2 minutos
 - **Archivos monitoreados**: ~10-15
@@ -227,7 +229,8 @@ Este es un repositorio personal de configuración. Para mejoras:
 
 - **v1.0.0** (2025-08-20) - Implementación inicial con servicio systemd
 - **v1.0.1** (2025-08-20) - Correcciones rutas y manejo errores MCPs
-- **v2.0.0** (2025-08-20) - Reorganización estructura: scripts/, staging, 1 min sync
+- **v2.0.0** (2025-08-20) - Reorganización estructura: scripts/, staging, 5 min sync
+- **v2.1.0** (2025-08-20) - ✅ Arreglado flujo staging: jamás toca archivos originales, reemplazado jq por python3
 
 ## 📄 Licencia
 

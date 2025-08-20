@@ -22,7 +22,7 @@
     "permissions": 37,
     "custom-commands": 32
   },
-  "promptQueueUseCount": 2,
+  "promptQueueUseCount": 3,
   "firstStartTime": "2025-08-13T13:40:57.141Z",
   "userID": "60ba0be0b87be375f21a54bb9ea48debdac2582f164edaf4a4f8b080105c42a6",
   "projects": {
@@ -1337,6 +1337,10 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "como lanzo el proyecto? el premium lanzalo",
+          "pastedContents": {}
+        },
+        {
           "display": " cepillate el resto de markdowns deja solo 1 en la raiz , llamalo readme, y mejor llevate lo del plan a PLAN.md , el readme solo cosas de readme",
           "pastedContents": {}
         },
@@ -1362,7 +1366,7 @@
       "enabledMcpjsonServers": [],
       "disabledMcpjsonServers": [],
       "hasTrustDialogAccepted": false,
-      "projectOnboardingSeenCount": 5,
+      "projectOnboardingSeenCount": 6,
       "hasClaudeMdExternalIncludesApproved": false,
       "hasClaudeMdExternalIncludesWarningShown": false,
       "exampleFiles": [
