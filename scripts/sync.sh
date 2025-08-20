@@ -94,24 +94,11 @@ while true; do
     
     # Verificar si hay commits pendientes de push
     if git log origin/main..HEAD --oneline 2>/dev/null | grep -q .; then
-        # Intentar pull --rebase primero para sincronizar
-        log "📥 Syncing with remote before push..."
-        if git pull --rebase origin main 2>/dev/null; then
-            log "✓ Successfully rebased with remote"
+        # Push directo con --force
+        if git push --force origin main 2>/dev/null; then
+            log "🚀 Changes force-pushed to GitHub successfully ($(git log origin/main..HEAD --oneline 2>/dev/null | wc -l) commits)"
         else
-            log "⚠ Rebase failed, will try force push"
-        fi
-        
-        # Intentar push normal
-        if git push origin main 2>/dev/null; then
-            log "🚀 Changes synced successfully to GitHub ($(git log origin/main..HEAD --oneline 2>/dev/null | wc -l) commits)"
-        else
-            log "⚠ Normal push failed, trying force push..."
-            if git push --force origin main 2>/dev/null; then
-                log "🚀 Changes force-pushed to GitHub successfully"
-            else
-                error_log "Failed to push to GitHub (even with --force)"
-            fi
+            error_log "Failed to force push to GitHub"
         fi
     elif [ "$local_changes" = true ]; then
         log "✓ Local changes committed but already synced"
