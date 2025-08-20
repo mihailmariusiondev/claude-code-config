@@ -16,4 +16,4 @@ Thumbs.db
 *~
 
 # Logs (ignorar todos los logs)
-logs/
+logs/sync.log
