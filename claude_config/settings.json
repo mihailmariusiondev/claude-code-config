@@ -99,7 +99,8 @@
       "Bash(* | tail*)",
       "Bash(* | wc*)",
       "Bash(* | sort*)",
-      "Bash(* | uniq*)"
+      "Bash(* | uniq*)",
+      "mcp__zen__analyze"
     ],
     "deny": [],
     "defaultMode": "bypassPermissions",
