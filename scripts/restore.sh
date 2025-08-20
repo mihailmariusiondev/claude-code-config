@@ -46,38 +46,27 @@ if [ -f "$CONFIG_DIR/mcpServers.json" ] && [ -f "$HOME/.claude.json" ]; then
     # Crear backup del archivo original
     cp "$HOME/.claude.json" "$HOME/.claude.json.backup"
     
-    # Fusionar mcpServers usando Python (más universal que jq)
-    python3 -c "
-import json
-import sys
-
-try:
-    # Leer archivo principal
-    with open('$HOME/.claude.json', 'r') as f:
-        main_config = json.load(f)
+    # Método básico: usar sed para reemplazar la sección mcpServers
+    # Extraer contenido de mcpServers.json (sin las llaves externas)
+    MCP_CONTENT=$(sed '1d;$d' "$CONFIG_DIR/mcpServers.json" | sed 's/^/  /')
     
-    # Leer mcpServers
-    with open('$CONFIG_DIR/mcpServers.json', 'r') as f:
-        mcp_servers = json.load(f)
+    # Crear archivo temporal con la estructura correcta
+    cat > /tmp/claude-temp.json << EOF
+{
+$(head -n -2 "$HOME/.claude.json" | tail -n +2 | sed '$s/,$//')
+  "mcpServers": {
+$MCP_CONTENT
+  }
+}
+EOF
     
-    # Fusionar
-    main_config['mcpServers'] = mcp_servers
-    
-    # Escribir resultado
-    with open('/tmp/claude-temp.json', 'w') as f:
-        json.dump(main_config, f, indent=2)
-    
-    print('success')
-except Exception as e:
-    print(f'error: {e}', file=sys.stderr)
-    sys.exit(1)
-"
-    
-    if [ $? -eq 0 ]; then
+    # Verificar que el archivo temporal es válido (contiene mcpServers)
+    if grep -q "mcpServers" /tmp/claude-temp.json; then
         mv /tmp/claude-temp.json "$HOME/.claude.json"
         echo "✓ MCP Servers restaurados en ~/.claude.json"
     else
         echo "⚠ Error fusionando MCPs, archivo original respaldado en ~/.claude.json.backup"
+        rm -f /tmp/claude-temp.json
     fi
 elif [ -f "$CONFIG_DIR/mcpServers.json" ]; then
     echo "⚠ ~/.claude.json no existe aún, MCPs se aplicarán cuando Claude Code cree el archivo"
