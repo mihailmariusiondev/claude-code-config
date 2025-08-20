@@ -7,12 +7,10 @@
 
 ## Rutas Importantes del Sistema
 
-**Rutas Windows desde WSL**: `\\wsl.localhost\Ubuntu\home\mihai-usl\`
-
-- **repos/personal** - Repositorios personales y proyectos propios
-- **repos/laboral** - Repositorios relacionados con trabajo/empresa
-- **mcp-servers** - MCP servers clonados manualmente (cuando npx/ux no funcionan)
-- **scripts** - Todos los scripts bash/python/utilidades (crontabs, automatización, herramientas)
+- **~/repos/personal** - Repositorios personales, proyectos propios, experimentos y desarrollo independiente
+- **~/repos/laboral** - Repositorios relacionados con trabajo/empresa, proyectos profesionales y colaboraciones
+- **~/mcp-servers** - MCP servers clonados manualmente cuando npx/ux fallan, no confundir con MCPs configurados en ~/.claude.json
+- **~/scripts** - Scripts bash/python/utilidades globales para crontabs, automatización, herramientas del sistema
 
 ## Claude Code Documentation Reference
 
