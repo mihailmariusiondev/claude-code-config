@@ -5,6 +5,7 @@
 
 REPO_DIR="/home/mihai-usl/repos/personal/claude-code-config"
 CLAUDE_DIR="$HOME/.claude"
+CONFIG_DIR="$REPO_DIR/claude_config"
 
 echo "Restaurando configuración Claude Code..."
 
