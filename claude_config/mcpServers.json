@@ -47,15 +47,6 @@
       "CUSTOM_MODELS_CONFIG_PATH": "/home/mihai-usl/mcp-servers/zen-mcp-server/conf/custom_models.json"
     }
   },
-  "browser-tools-server": {
-    "type": "stdio",
-    "command": "npx",
-    "args": [
-      "-y",
-      "@agentdeskai/browser-tools-server@1.2.0"
-    ],
-    "env": {}
-  },
   "youtube-transcript": {
     "type": "stdio",
     "command": "npx",
