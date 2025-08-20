@@ -31,8 +31,7 @@ fi
 
 log "=== Claude Code Config Auto-Sync Started ==="
 
-# CAMBIO: Para cron no necesitamos while loop ni sleep
-# Cron ejecutará este script cada minuto
+while true; do
     log "Checking for changes..."
     
     # Limpiar directorio temporal
@@ -129,4 +128,8 @@ log "=== Claude Code Config Auto-Sync Started ==="
         log "💤 No changes detected"
     fi
     
-# Script terminará aquí - cron lo ejecutará de nuevo en 1 minuto
+    # Esperar 1 minuto
+    log "⏱️ Waiting 1 minute until next sync..."
+    sleep 60
+    log "🔄 Starting next sync cycle..."
+done
