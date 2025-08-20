@@ -72,21 +72,30 @@ while true; do
         cp -r "$CLAUDE_DIR/agents" ./ 2>/dev/null && log "✓ Copied agents directory" || error_log "Failed to copy agents directory"
     fi
     
-    # Verificar si hay cambios y hacer sync
+    # Verificar si hay cambios locales
+    local_changes=false
     if ! git diff-index --quiet HEAD -- 2>/dev/null; then
+        local_changes=true
         if git add . 2>/dev/null; then
             if git commit -m "auto-sync $(date '+%Y-%m-%d %H:%M:%S')" 2>/dev/null; then
-                if git push origin main 2>/dev/null; then
-                    log "🚀 Changes synced successfully to GitHub"
-                else
-                    error_log "Failed to push to GitHub"
-                fi
+                log "✓ Local changes committed"
             else
                 error_log "Failed to commit changes"
             fi
         else
             error_log "Failed to add files to git"
         fi
+    fi
+    
+    # Verificar si hay commits pendientes de push
+    if git log origin/main..HEAD --oneline 2>/dev/null | grep -q .; then
+        if git push origin main 2>/dev/null; then
+            log "🚀 Changes synced successfully to GitHub ($(git log origin/main..HEAD --oneline | wc -l) commits)"
+        else
+            error_log "Failed to push to GitHub"
+        fi
+    elif [ "$local_changes" = true ]; then
+        log "✓ Local changes committed but already synced"
     else
         log "💤 No changes detected"
     fi
