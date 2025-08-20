@@ -99,7 +99,7 @@
       "Bash(* | tail*)",
       "Bash(* | wc*)",
       "Bash(* | sort*)",
-      "Bash(* | uniq*)",
+      "Bash(* | uniq*)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"
