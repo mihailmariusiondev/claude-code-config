@@ -5,23 +5,30 @@
 
 echo "🔧 Instalando servicio claude-sync..."
 
+# Auto-detectar rutas dinámicas
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_DIR="$(dirname "$SCRIPT_DIR")"
+CURRENT_USER="$(whoami)"
 SERVICE_FILE="/etc/systemd/system/claude-sync.service"
+
+echo "📁 Usando directorio: $REPO_DIR"
+echo "👤 Usuario actual: $CURRENT_USER"
 
 # Parar servicio si existe
 sudo systemctl stop claude-sync.service 2>/dev/null || true
 
-# Crear archivo de servicio
-sudo tee "$SERVICE_FILE" > /dev/null << 'EOF'
+# Crear archivo de servicio con rutas dinámicas
+sudo tee "$SERVICE_FILE" > /dev/null << EOF
 [Unit]
 Description=Claude Code Config Auto-Sync Service
 After=network.target
 
 [Service]
 Type=simple
-User=mihai-usl
-Group=mihai-usl
-WorkingDirectory=/home/mihai-usl/repos/personal/claude-code-config
-ExecStart=/home/mihai-usl/repos/personal/claude-code-config/scripts/sync.sh
+User=$CURRENT_USER
+Group=$CURRENT_USER
+WorkingDirectory=$REPO_DIR
+ExecStart=$REPO_DIR/scripts/sync.sh
 Restart=always
 RestartSec=10
 StandardOutput=journal

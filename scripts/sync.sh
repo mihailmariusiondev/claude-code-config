@@ -1,16 +1,17 @@
 #!/bin/bash
 
 # Claude Code Config Auto-Sync Script
-# Sincroniza configuración cada minuto
+# Sincroniza configuración cada 5 minutos
 
-REPO_DIR="/home/mihai-usl/repos/personal/claude-code-config"
+# Auto-detectar rutas dinámicas
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_DIR="$(dirname "$SCRIPT_DIR")"
 CLAUDE_DIR="$HOME/.claude"
-TMP_DIR="$REPO_DIR/tmp"
 CONFIG_DIR="$REPO_DIR/claude_config"
 LOG_FILE="$REPO_DIR/logs/sync.log"
 
 # Crear directorios necesarios
-mkdir -p "$REPO_DIR/logs" "$TMP_DIR" "$CONFIG_DIR"
+mkdir -p "$REPO_DIR/logs" "$CONFIG_DIR"
 
 cd "$REPO_DIR"
 
@@ -34,66 +35,41 @@ log "=== Claude Code Config Auto-Sync Started ==="
 while true; do
     log "Checking for changes..."
     
-    # Limpiar directorio temporal
-    log "🧹 Cleaning tmp directory..."
-    rm -rf "$TMP_DIR"/*
-    log "✓ Tmp directory cleaned"
-    
-    # Copiar archivos principales de configuración a tmp/
+    # Copiar archivos directamente a claude_config/
     if [ -f "$CLAUDE_DIR/settings.json" ]; then
-        cp "$CLAUDE_DIR/settings.json" "$TMP_DIR/" 2>/dev/null && log "✓ Staged settings.json" || error_log "Failed to stage settings.json"
+        cp "$CLAUDE_DIR/settings.json" "$CONFIG_DIR/" 2>/dev/null && log "✓ Copied settings.json" || error_log "Failed to copy settings.json"
     fi
     
     if [ -f "$CLAUDE_DIR/CLAUDE.md" ]; then
-        cp "$CLAUDE_DIR/CLAUDE.md" "$TMP_DIR/" 2>/dev/null && log "✓ Staged CLAUDE.md" || error_log "Failed to stage CLAUDE.md"
+        cp "$CLAUDE_DIR/CLAUDE.md" "$CONFIG_DIR/" 2>/dev/null && log "✓ Copied CLAUDE.md" || error_log "Failed to copy CLAUDE.md"
     fi
     
     if [ -f "$CLAUDE_DIR/CLAUDE_CODE_REFERENCE.md" ]; then
-        cp "$CLAUDE_DIR/CLAUDE_CODE_REFERENCE.md" "$TMP_DIR/" 2>/dev/null && log "✓ Staged CLAUDE_CODE_REFERENCE.md" || error_log "Failed to stage CLAUDE_CODE_REFERENCE.md"
+        cp "$CLAUDE_DIR/CLAUDE_CODE_REFERENCE.md" "$CONFIG_DIR/" 2>/dev/null && log "✓ Copied CLAUDE_CODE_REFERENCE.md" || error_log "Failed to copy CLAUDE_CODE_REFERENCE.md"
     fi
     
-    # Primero copiar ~/.claude.json completo a staging, luego procesar
+    # Copiar archivo interno completo (mismo nombre)
     if [ -f "$HOME/.claude.json" ]; then
         if [ -r "$HOME/.claude.json" ]; then
-            # SOLO COPIAR - sin procesar
-            if cp "$HOME/.claude.json" "$TMP_DIR/claude.json.staging" 2>/dev/null; then
-                log "✓ Staged claude.json.staging"
-                # Ahora extraer mcpServers DESDE LA COPIA staging
-                if timeout 5 python3 -c "import json; data=json.load(open('$TMP_DIR/claude.json.staging')); json.dump(data.get('mcpServers', {}), open('$TMP_DIR/mcpServers.json', 'w'))" 2>/dev/null; then
-                    server_count=$(python3 -c "import json; print(len(json.load(open('$TMP_DIR/mcpServers.json'))))" 2>/dev/null || echo "unknown")
-                    log "✓ Extracted mcpServers.json from staging ($server_count servers)"
-                else
-                    echo "{}" > "$TMP_DIR/mcpServers.json"
-                    error_log "Failed to extract mcpServers from staging copy (timeout or parse error), created empty file"
-                fi
+            if cp "$HOME/.claude.json" "$CONFIG_DIR/.claude.json" 2>/dev/null; then
+                log "✓ Copied .claude.json"
             else
-                echo "{}" > "$TMP_DIR/mcpServers.json"
-                error_log "Failed to copy ~/.claude.json to staging, created empty mcpServers.json"
+                error_log "Failed to copy .claude.json"
             fi
         else
-            echo "{}" > "$TMP_DIR/mcpServers.json"
-            error_log "Cannot read ~/.claude.json (permission denied), created empty mcpServers.json"
+            error_log "Cannot read ~/.claude.json (permission denied)"
         fi
     else
-        echo "{}" > "$TMP_DIR/mcpServers.json"
-        log "⚠ ~/.claude.json not found, created empty mcpServers.json"
+        log "⚠ ~/.claude.json not found"
     fi
     
-    # Copiar directorios commands/ y agents/ a tmp/ si existen
+    # Copiar directorios commands/ y agents/ si existen
     if [ -d "$CLAUDE_DIR/commands" ]; then
-        cp -r "$CLAUDE_DIR/commands" "$TMP_DIR/" 2>/dev/null && log "✓ Staged commands directory" || error_log "Failed to stage commands directory"
+        cp -r "$CLAUDE_DIR/commands" "$CONFIG_DIR/" 2>/dev/null && log "✓ Copied commands directory" || error_log "Failed to copy commands directory"
     fi
     
     if [ -d "$CLAUDE_DIR/agents" ]; then
-        cp -r "$CLAUDE_DIR/agents" "$TMP_DIR/" 2>/dev/null && log "✓ Staged agents directory" || error_log "Failed to stage agents directory"
-    fi
-    
-    # Mover archivos desde tmp/ a claude_config/
-    log "📁 Syncing tmp/ to claude_config/..."
-    if [ "$(ls -A "$TMP_DIR" 2>/dev/null)" ]; then
-        rsync -av --delete "$TMP_DIR/" "$CONFIG_DIR/" 2>/dev/null && log "✓ Synced to claude_config/" || error_log "Failed to sync to claude_config/"
-    else
-        log "⚠ No files in tmp/ to sync"
+        cp -r "$CLAUDE_DIR/agents" "$CONFIG_DIR/" 2>/dev/null && log "✓ Copied agents directory" || error_log "Failed to copy agents directory"
     fi
     
     # Verificar si hay cambios locales
@@ -116,23 +92,17 @@ while true; do
         log "💤 No local changes detected"
     fi
     
-    # Siempre intentar push si hay commits locales (sin depender de origin/main)
+    # Siempre intentar push si hay commits locales
     log "🔄 Checking for commits to push..."
     if git log --oneline -1 2>/dev/null | grep -q .; then
         log "📤 Commits found, attempting force push to GitHub..."
-        # Push directo con --force - MOSTRAR EL ERROR
         push_output=$(git push --force origin main 2>&1)
         if [ $? -eq 0 ]; then
             log "🚀 Changes force-pushed to GitHub successfully"
         else
             error_log "Failed to force push to GitHub"
             error_log "Git push error output: $push_output"
-            log "🔍 Debugging push failure..."
-            git remote -v | while read line; do log "Remote: $line"; done
-            git status --porcelain | while read line; do log "Status: $line"; done
         fi
-    elif [ "$local_changes" = true ]; then
-        log "✓ Local changes committed but already synced"
     else
         log "💤 No changes detected"
     fi

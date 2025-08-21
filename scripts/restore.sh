@@ -41,31 +41,67 @@ if [ -d "$CONFIG_DIR/agents" ]; then
     echo "✓ Agentes personalizados restaurados"
 fi
 
-# Fusionar mcpServers en ~/.claude.json si existe
-if [ -f "$CONFIG_DIR/mcpServers.json" ] && [ -f "$HOME/.claude.json" ]; then
-    # Crear backup del archivo original
-    cp "$HOME/.claude.json" "$HOME/.claude.json.backup"
+# Merge inteligente de ~/.claude.json (solo sección mcpServers)
+if [ -f "$CONFIG_DIR/.claude.json" ]; then
+    if [ -f "$HOME/.claude.json" ]; then
+        # Crear backup del archivo original
+        cp "$HOME/.claude.json" "$HOME/.claude.json.backup"
+        echo "💾 Backup creado: ~/.claude.json.backup"
+        
+        # Extraer solo mcpServers del archivo de configuración
+        if python3 -c "
+import json
+import sys
+
+# Leer archivo de configuración
+with open('$CONFIG_DIR/.claude.json', 'r') as f:
+    config_data = json.load(f)
+
+# Leer archivo actual del usuario
+with open('$HOME/.claude.json', 'r') as f:
+    user_data = json.load(f)
+
+# Solo reemplazar la sección mcpServers si existe en config
+if 'mcpServers' in config_data:
+    user_data['mcpServers'] = config_data['mcpServers']
     
-    # Método simple: reemplazar toda la sección mcpServers
-    # Extraer contenido hasta mcpServers (excluyendo la línea "mcpServers")
-    sed '/^  "mcpServers":/,$d' "$HOME/.claude.json" > /tmp/claude-temp.json
+    # Escribir archivo actualizado
+    with open('$HOME/.claude.json', 'w') as f:
+        json.dump(user_data, f, indent=2)
     
-    # Agregar nueva sección mcpServers desde el archivo de configuración
-    echo '  "mcpServers": {' >> /tmp/claude-temp.json
-    sed '1d;$d' "$CONFIG_DIR/mcpServers.json" | sed 's/^/  /' >> /tmp/claude-temp.json
-    echo '  }' >> /tmp/claude-temp.json
-    echo '}' >> /tmp/claude-temp.json
-    
-    # Verificar que el archivo temporal es válido
-    if grep -q "mcpServers" /tmp/claude-temp.json && [ -s /tmp/claude-temp.json ]; then
-        mv /tmp/claude-temp.json "$HOME/.claude.json"
-        echo "✓ MCP Servers restaurados en ~/.claude.json"
+    print('success')
+else:
+    print('no_mcpservers')
+" 2>/dev/null; then
+            result=$(python3 -c "
+import json
+with open('$CONFIG_DIR/.claude.json', 'r') as f:
+    config_data = json.load(f)
+with open('$HOME/.claude.json', 'r') as f:
+    user_data = json.load(f)
+if 'mcpServers' in config_data:
+    user_data['mcpServers'] = config_data['mcpServers']
+    with open('$HOME/.claude.json', 'w') as f:
+        json.dump(user_data, f, indent=2)
+    print('success')
+else:
+    print('no_mcpservers')")
+            
+            if [ "$result" = "success" ]; then
+                echo "✓ MCP Servers fusionados en ~/.claude.json (resto del archivo preservado)"
+            else
+                echo "⚠ No se encontró sección mcpServers en configuración"
+            fi
+        else
+            echo "⚠ Error procesando archivos JSON con Python"
+        fi
     else
-        echo "⚠ Error fusionando MCPs, archivo original respaldado en ~/.claude.json.backup"
-        rm -f /tmp/claude-temp.json
+        # Si no existe ~/.claude.json, copiar el archivo completo
+        cp "$CONFIG_DIR/.claude.json" "$HOME/.claude.json"
+        echo "✓ ~/.claude.json restaurado (archivo completo)"
     fi
-elif [ -f "$CONFIG_DIR/mcpServers.json" ]; then
-    echo "⚠ ~/.claude.json no existe aún, MCPs se aplicarán cuando Claude Code cree el archivo"
+else
+    echo "⚠ No se encontró .claude.json en configuración"
 fi
 
 echo ""
@@ -73,5 +109,5 @@ echo "🎉 Configuración restaurada correctamente!"
 echo ""
 echo "Próximos pasos:"
 echo "1. Ejecutar './scripts/install-service.sh' para activar sincronización automática"
-echo "2. Ejecutar 'claude' si es necesario para inicializar Claude Code"
+echo "2. Ejecutar 'claude' para inicializar Claude Code si es necesario"
 echo ""
