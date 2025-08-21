@@ -848,6 +848,14 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "  ├── mcpServers.json          # ← Solo esta sección extraída QUE NO QUIERO ESTO, copiar el .claude.json de la ruta raiz (SIN HARDCODEAR RUTAS) \\\\wsl.localhost\\Ubuntu\\home\\mihai-usl",
+          "pastedContents": {}
+        },
+        {
+          "display": "quiero simplificar enormemente tanto el script de sincronizar como restaurar, el flujo es muy sencillo joder deberian ser pocas lineas de codigo, tmp se va a tomar por culo, nos copiamos directamente los ficheros a claude_config , y el restore los restaura , SALVO y uy importante: el claude.config.json, el restore, SOLO DEBERIA REEMPLAZAR LA SECCION (o crearla) de \"mcpServers\":{} , dentro del usuario que ejecuta el restaurar, todas las rutas hardcodeadas NO las quiero, mcpServers.json se va fuera, como quedaria todo",
+          "pastedContents": {}
+        },
+        {
           "display": "pero por que coño se le llama staging? al copiar no le cambies el nombre de nada, mira mejor el file mcp servers se va a tomar por culo, nos vamos a copiar primero RAW todos los files a tmp, por cierto ajusta las rutas para que todo se pueda ejecutar desde cualquier maquina, tanto como si quiere sincronizar como recuperar",
           "pastedContents": {}
         },
