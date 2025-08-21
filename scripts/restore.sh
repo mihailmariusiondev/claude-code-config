@@ -169,7 +169,7 @@ restore_file() {
                 dst_size=$(stat -c%s "$dst" 2>/dev/null || echo "unknown")
                 log_info "  Archivo destino ya existe (tamaño: $dst_size bytes)"
                 log_info "  Creando backup del archivo existente..."
-                backup_file="${dst}.backup.$(date +%Y%m%d_%H%M%S)"
+                backup_file="${dst}.backup"
                 if cp "$dst" "$backup_file" 2>/dev/null; then
                     log_info "  Backup creado: $backup_file"
                 else
@@ -235,7 +235,7 @@ restore_directory() {
                 log_info "  Directorio destino ya existe ($existing_files archivos)"
                 log_info "  Creando backup del directorio existente..."
                 
-                backup_dir="${dst_full}.backup.$(date +%Y%m%d_%H%M%S)"
+                backup_dir="${dst_full}.backup"
                 if mv "$dst_full" "$backup_dir" 2>/dev/null; then
                     log_info "  Backup creado: $backup_dir"
                 else
@@ -297,9 +297,7 @@ log_info "=== RESTAURACIÓN DE ARCHIVOS PRINCIPALES ==="
 available_files=$(ls -la "$CONFIG_DIR" 2>/dev/null | grep '^-' | wc -l)
 log_info "Archivos disponibles para restaurar: $available_files"
 log_info "Contenido del directorio de configuración:"
-ls -la "$CONFIG_DIR" 2>/dev/null | while read line; do
-    log_info "  $line"
-done
+ls -la "$CONFIG_DIR" 2>/dev/null | head -20 >> "$LOG_FILE"
 
 files_restored=0
 files_failed=0
@@ -376,7 +374,7 @@ if [ -f "$CONFIG_DIR/.claude.json" ]; then
             log_info "Procediendo con merge inteligente..."
             
             # Crear backup con timestamp
-            backup_file="$HOME/.claude.json.backup.$(date +%Y%m%d_%H%M%S)"
+            backup_file="$HOME/.claude.json.backup"
             log_info "Creando backup en: $backup_file"
             if cp "$HOME/.claude.json" "$backup_file" 2>/dev/null; then
                 backup_size=$(stat -c%s "$backup_file" 2>/dev/null || echo "unknown")
