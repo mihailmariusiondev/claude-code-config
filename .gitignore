@@ -1,7 +1,9 @@
-# Archivos temporales
+# Archivos temporales y obsoletos
 tmp/
 *.tmp
 *.bak
+*.backup
+*.staging
 nohup.out
 
 # OS files
@@ -20,3 +22,12 @@ logs/
 **/logs/
 *.log
 *.log.*
+
+# Archivos de configuración sensibles (por seguridad)
+# Nota: .claude.json contiene tokens e info personal
+# Solo versionamos la configuración desde claude_config/
+.claude.json.backup*
+
+# Archivos de sistema
+.pid
+*.pid
