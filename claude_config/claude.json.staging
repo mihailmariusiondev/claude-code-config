@@ -848,6 +848,14 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "pero por que coño se le llama staging? al copiar no le cambies el nombre de nada, mira mejor el file mcp servers se va a tomar por culo, nos vamos a copiar primero RAW todos los files a tmp, por cierto ajusta las rutas para que todo se pueda ejecutar desde cualquier maquina, tanto como si quiere sincronizar como recuperar",
+          "pastedContents": {}
+        },
+        {
+          "display": "pero es que no deberia haber acabado ahi no? joder en tod ocaso deberia estar en tmp",
+          "pastedContents": {}
+        },
+        {
           "display": "revisa todo lo que hay aqui  , por que carjaos tengo claude.json.staging en claude_config ?",
           "pastedContents": {}
         },
