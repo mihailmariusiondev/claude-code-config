@@ -1,4 +1,8 @@
-# Claude Code Search Configuration
+# Claude Code Configuration
+
+## General Rules
+
+- **ALL code must be production-ready with proper error handling, validation, and best practices**
 
 ## Search Rules
 
