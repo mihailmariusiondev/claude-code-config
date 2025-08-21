@@ -1306,17 +1306,17 @@
         "mcpServers.json"
       ],
       "exampleFilesGeneratedAt": 1755708319039,
-      "lastCost": 0.9909384,
-      "lastAPIDuration": 45134,
-      "lastToolDuration": 36,
-      "lastDuration": 207235,
-      "lastLinesAdded": 5,
-      "lastLinesRemoved": 1,
-      "lastTotalInputTokens": 1304,
-      "lastTotalOutputTokens": 1711,
-      "lastTotalCacheCreationInputTokens": 194548,
-      "lastTotalCacheReadInputTokens": 787450,
-      "lastSessionId": "114ece9d-71a0-47ba-9ad6-b0cf6521c126"
+      "lastCost": 12.1326868,
+      "lastAPIDuration": 1283014,
+      "lastToolDuration": 5040,
+      "lastDuration": 2856864,
+      "lastLinesAdded": 1693,
+      "lastLinesRemoved": 565,
+      "lastTotalInputTokens": 19586,
+      "lastTotalOutputTokens": 68542,
+      "lastTotalCacheCreationInputTokens": 861004,
+      "lastTotalCacheReadInputTokens": 11592368,
+      "lastSessionId": "f0d535da-2561-4682-aa42-cb95a86f5369"
     },
     "/home/mihai-usl/repos/personal": {
       "allowedTools": [],
