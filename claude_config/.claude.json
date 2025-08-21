@@ -1306,17 +1306,17 @@
         "mcpServers.json"
       ],
       "exampleFilesGeneratedAt": 1755708319039,
-      "lastCost": 12.1326868,
-      "lastAPIDuration": 1283014,
-      "lastToolDuration": 5040,
-      "lastDuration": 2856864,
-      "lastLinesAdded": 1693,
-      "lastLinesRemoved": 565,
-      "lastTotalInputTokens": 19586,
-      "lastTotalOutputTokens": 68542,
-      "lastTotalCacheCreationInputTokens": 861004,
-      "lastTotalCacheReadInputTokens": 11592368,
-      "lastSessionId": "f0d535da-2561-4682-aa42-cb95a86f5369"
+      "lastCost": 0.00021600000000000002,
+      "lastAPIDuration": 1668,
+      "lastToolDuration": 0,
+      "lastDuration": 22154,
+      "lastLinesAdded": 0,
+      "lastLinesRemoved": 0,
+      "lastTotalInputTokens": 210,
+      "lastTotalOutputTokens": 12,
+      "lastTotalCacheCreationInputTokens": 0,
+      "lastTotalCacheReadInputTokens": 0,
+      "lastSessionId": "28975763-354e-43c3-974f-62a2c3712311"
     },
     "/home/mihai-usl/repos/personal": {
       "allowedTools": [],
@@ -1515,7 +1515,7 @@
   "s1mAccessCache": {
     "1415319d-a5a3-4484-a221-f8b42fbf88b8": {
       "hasAccess": false,
-      "timestamp": 1755770987528
+      "timestamp": 1755774665039
     }
   },
   "fallbackAvailableWarningThreshold": 0.2,
