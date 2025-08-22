@@ -836,6 +836,14 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "sigue habiendo un puto servicio en segundo plano commiteando automaticamente lee todo",
+          "pastedContents": {}
+        },
+        {
+          "display": "/compact ",
+          "pastedContents": {}
+        },
+        {
           "display": "para todos los servicios en ejecucion me sigue jhaciendo commits automaticos",
           "pastedContents": {}
         },
@@ -1260,14 +1268,6 @@
         },
         {
           "display": "pero pa que metes wait el servicio solo se ejecuta cada minuto igual no? ",
-          "pastedContents": {}
-        },
-        {
-          "display": "no quiero que el script ejecute push nada mas lanzarse, solo tras 1 minuto despuews de estar vivo",
-          "pastedContents": {}
-        },
-        {
-          "display": "ademas que se elimine cada X tiempo",
           "pastedContents": {}
         }
       ],
