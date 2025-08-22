@@ -836,6 +836,10 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "/context ",
+          "pastedContents": {}
+        },
+        {
           "display": "quiero poder usarlo el script en mi wsl laboral con git corporativo cual es la mejhor solucion, pero QUIERO DISATINGUIR ENTRE ESTO QUE SE PUSHEA DESDE MI PC PERSONAL, de otras maquinas donde lo instale",
           "pastedContents": {}
         },
@@ -1258,10 +1262,6 @@
         },
         {
           "display": "quiero que tambien segun se inicie el servicio , se ejecute",
-          "pastedContents": {}
-        },
-        {
-          "display": "BRO ME ACABA DE METER OTRA VEZ LOS ARCHIVOS EN LA RAIZ QUE COÑO PASA AQUI HAY UN SERVICIO EJECUTANDOSE POR AHI ?",
           "pastedContents": {}
         }
       ],
