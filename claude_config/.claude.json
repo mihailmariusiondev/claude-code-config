@@ -656,6 +656,14 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "REPOS / CLAUDE CONFIG ",
+          "pastedContents": {}
+        },
+        {
+          "display": "he eliminado sin querer el repo de claude config, podrias re crearlo otra vez con lo que tiene tal cual?",
+          "pastedContents": {}
+        },
+        {
           "display": "lo de mcp servers esta bien pero lo demas podemos reducir comprimir no es necesasrio que sea tan extenso",
           "pastedContents": {}
         },
@@ -791,22 +799,22 @@
       "enabledMcpjsonServers": [],
       "disabledMcpjsonServers": [],
       "hasTrustDialogAccepted": false,
-      "projectOnboardingSeenCount": 1,
+      "projectOnboardingSeenCount": 2,
       "hasClaudeMdExternalIncludesApproved": false,
       "hasClaudeMdExternalIncludesWarningShown": false,
       "lastTotalWebSearchRequests": 0,
       "hasCompletedProjectOnboarding": true,
-      "lastCost": 2.6573738999999996,
-      "lastAPIDuration": 243123,
-      "lastToolDuration": 252,
-      "lastDuration": 1277735,
-      "lastLinesAdded": 52,
-      "lastLinesRemoved": 44,
-      "lastTotalInputTokens": 8360,
-      "lastTotalOutputTokens": 9961,
-      "lastTotalCacheCreationInputTokens": 349198,
-      "lastTotalCacheReadInputTokens": 3992380,
-      "lastSessionId": "1964f539-ab62-4fda-8277-7c542902d741"
+      "lastCost": 0.8259188,
+      "lastAPIDuration": 48739,
+      "lastToolDuration": 336,
+      "lastDuration": 88327,
+      "lastLinesAdded": 34,
+      "lastLinesRemoved": 28,
+      "lastTotalInputTokens": 3164,
+      "lastTotalOutputTokens": 1702,
+      "lastTotalCacheCreationInputTokens": 190448,
+      "lastTotalCacheReadInputTokens": 281316,
+      "lastSessionId": "a3803c54-38f5-486d-81c9-c5ff15810a29"
     },
     "/tmp": {
       "allowedTools": [],
@@ -1515,7 +1523,7 @@
   "s1mAccessCache": {
     "1415319d-a5a3-4484-a221-f8b42fbf88b8": {
       "hasAccess": false,
-      "timestamp": 1755774665039
+      "timestamp": 1755861271757
     }
   },
   "fallbackAvailableWarningThreshold": 0.2,
