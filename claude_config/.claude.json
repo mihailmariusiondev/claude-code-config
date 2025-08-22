@@ -836,6 +836,10 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "docuemtna todo lo que hay que hacer en caso de problemas tambien",
+          "pastedContents": {}
+        },
+        {
           "display": "pero ahora funciona todo ? como ? que hemos hecho bro ?",
           "pastedContents": {}
         },
@@ -1258,10 +1262,6 @@
         },
         {
           "display": "lo unico que quiero ver son los logs de estos scripts: /home/mihai-usl/repos/personal/claude-code-config/scripts",
-          "pastedContents": {}
-        },
-        {
-          "display": "logs logs que coño guardan? yo lo que quiero es que guarden logs del servicio o el script no esa mierda",
           "pastedContents": {}
         }
       ],
