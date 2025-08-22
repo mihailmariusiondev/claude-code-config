@@ -856,6 +856,10 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "el script maneja si hay que traerse tambien cambios ? a veces da problemas , la idea es que haga push force ,e esta asi ya?",
+          "pastedContents": {}
+        },
+        {
           "display": "ok ahora sigue el flujo",
           "pastedContents": {}
         },
@@ -1289,10 +1293,6 @@
         },
         {
           "display": "como puedo chequear si funciona , si en teoria con estar levantado es suficiente no?",
-          "pastedContents": {}
-        },
-        {
-          "display": "pero no me des la puta razon sin mas dime que necesitaba que fuera critico realmente no uses mcps solo dimelo y restaura lo que habia antes NO USES MCPS",
           "pastedContents": {}
         }
       ],
