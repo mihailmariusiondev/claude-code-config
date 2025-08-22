@@ -856,6 +856,10 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "peero para que todo eso si el force push se la suda todo?",
+          "pastedContents": {}
+        },
+        {
           "display": "el script maneja si hay que traerse tambien cambios ? a veces da problemas , la idea es que haga push force ,e esta asi ya?",
           "pastedContents": {}
         },
@@ -1289,10 +1293,6 @@
         },
         {
           "display": "LEE todos los logs porque no esta empujando automaticamente",
-          "pastedContents": {}
-        },
-        {
-          "display": "como puedo chequear si funciona , si en teoria con estar levantado es suficiente no?",
           "pastedContents": {}
         }
       ],
