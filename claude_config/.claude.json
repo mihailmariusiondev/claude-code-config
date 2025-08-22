@@ -836,6 +836,10 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "rsuyncc como funciona n otengo ni puta idea, podria hacer un sync a una maquina remota sin mas ? ",
+          "pastedContents": {}
+        },
+        {
           "display": "[Pasted text #1 +156 lines] como lo refactorizamos con rsync ?",
           "pastedContents": {
             "1": {
@@ -1264,10 +1268,6 @@
         },
         {
           "display": "vale pero pro que en staging se me quedan esos dos putos files SIEMPRE",
-          "pastedContents": {}
-        },
-        {
-          "display": "ok revisa TODO ",
           "pastedContents": {}
         }
       ],
