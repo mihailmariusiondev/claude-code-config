@@ -28,6 +28,10 @@ logs/
 # Solo versionamos la configuración desde claude_config/
 .claude.json.backup*
 
+# Directorio .claude completo (nunca trackear)
+.claude/
+**/.claude/
+
 # Archivos de sistema
 .pid
 *.pid

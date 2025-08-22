@@ -1,15 +1,16 @@
 # Claude Code Configuration Sync
 
-> 🚀 **Sync automático de configuración Claude Code cada 1 minuto**
+> 🚀 **UN SOLO SCRIPT PARA TODO**
 
-Sistema simple que mantiene tu configuración Claude Code siempre sincronizada en GitHub.
+Sistema ultra-simple: **un solo archivo** hace restore, servicio y sync automático cada 1 minuto.
 
 ## ⚡ Qué Hace
 
-- **Sync automático cada 1 minuto** - Copia `~/.claude/` → GitHub 
-- **Force push siempre** - Sin conflictos, machaca todo remoto
+- **UN SOLO SCRIPT** - `install.sh` hace TODO 
+- **Sync cada 1 minuto** - Copia `~/.claude/` → GitHub automático
+- **Force push siempre** - Sin conflictos jamás, machaca remoto
 - **Auto-inicio** - Funciona al arrancar WSL/Linux
-- **Restauración simple** - Nueva máquina en 30 segundos
+- **Cero carpetas** - Solo `install.sh` en la raíz
 
 ## 📁 Archivos Sincronizados
 
@@ -18,63 +19,57 @@ Sistema simple que mantiene tu configuración Claude Code siempre sincronizada e
 - `~/.claude/CLAUDE_CODE_REFERENCE.md` - Documentación
 - `~/.claude/commands/` - Comandos slash personalizados
 - `~/.claude/agents/` - Subagentes especializados
-- `~/.claude.json` - MCP servers (solo sección mcpServers en restore)
+- `~/.claude.json` - MCP servers (merge inteligente)
 
-## 🛠️ Instalación
+## 🛠️ Instalación (2 comandos)
 
 ### Nueva Máquina
 ```bash
-# 1. Login Claude Code
-npm install -g @anthropic-ai/claude-code
-claude
-
-# 2. Instalar sync (todo automático)
 git clone https://github.com/mihailmariusiondev/claude-code-config.git
-cd claude-code-config
-./install.sh
+cd claude-code-config && ./install.sh
 ```
 
 ### Máquina Existente  
 ```bash
-cd claude-code-config
-./install.sh
+cd claude-code-config && ./install.sh
 ```
 
-## 🔧 Gestión
+## 🔧 Gestión (Todo desde `install.sh`)
 
-### Actualizar Servicio
+### Actualizar/Reinstalar
 ```bash
-# Aplicar cambios en scripts
-./install.sh  # Se encarga de todo automáticamente
+./install.sh  # Hace TODO: restore + servicio + sync
 ```
 
-### Comandos Básicos
+### Comandos Básicos  
 ```bash
 # Estado
 sudo systemctl status claude-sync.service
 
 # Logs en tiempo real  
 sudo journalctl -u claude-sync.service -f
+tail -f logs/sync.log
 
 # Parar/Iniciar
 sudo systemctl stop claude-sync.service
 sudo systemctl start claude-sync.service
 ```
 
-## 🔄 Cómo Funciona
+## 🔄 Cómo Funciona (Ultra-Simple)
 
 ```
+                    UN SOLO SCRIPT
+                    
 ~/.claude/  →  claude_config/  →  GitHub (force push)
    ↑              ↑                   ↑
-Original      Tracking dir        Backup remoto
-(never        (git commits)      (siempre actualizado)
- touched)     
+Original     Git tracking         Remoto machacado
+(untouched)   (auto-commit)       (siempre gana local)
 ```
 
-**Cada 1 minuto:**
-1. Copia archivos de `~/.claude/` a `claude_config/`
-2. Si hay cambios → `git commit`  
-3. `git push --force origin main` (machaca todo remoto)
+**`install.sh` hace:**
+1. **Restore**: `claude_config/` → `~/.claude/`
+2. **Servicio**: Crea systemd que ejecuta `install.sh --daemon`
+3. **Daemon**: Loop infinito cada 1 minuto con force push
 
 ## 🚨 Troubleshooting
 
@@ -111,47 +106,47 @@ ls -la ~/.claude/
 
 ### Cambiar frecuencia
 ```bash
-# Editar intervalo (actual: 1 minuto = 60 segundos)
-sed -i 's/sleep 60/sleep 300/' scripts/sync.sh   # 5 minutos
+# Editar intervalo en install.sh (buscar "sleep 60")
+sed -i 's/sleep 60/sleep 300/' install.sh   # 5 minutos  
 ./install.sh  # Aplicar cambios
 ```
 
 ### Ver estadísticas
 ```bash
-# Últimos syncs
-grep "CYCLE" logs/sync.log | tail -5
-
-# Archivos procesados  
-grep "Copied" logs/sync.log | tail -10
+# Logs detallados
+tail -f logs/sync.log
 
 # Estado del servicio
 sudo systemctl status claude-sync.service
 ```
 
-## 🏗️ Arquitectura Simple
+## 🏗️ Arquitectura: 1 Script = Everything
 
 ```
-┌─────────────┐    cada     ┌─────────────┐    force    ┌─────────────┐
-│ ~/.claude/  │    1 min    │ git repo    │    push     │  GitHub     │
-│ (original)  │ ────────▶   │ (tracking)  │ ────────▶   │ (backup)    │
-└─────────────┘             └─────────────┘             └─────────────┘
+┌──────────────────────────────────────────┐
+│              install.sh                  │
+│  ┌─────────┐ ┌─────────┐ ┌─────────────┐ │
+│  │ Restore │ │ Service │ │ Daemon Loop │ │  
+│  │   Step  │ │  Setup  │ │ (1 min sync)│ │
+│  └─────────┘ └─────────┘ └─────────────┘ │
+└──────────────────────────────────────────┘
+                     │
+                     ▼
+        Force push → GitHub (always wins)
 ```
 
-**Force push = Sin problemas:**
-- No importa qué hay en GitHub
-- Siempre gana lo local
-- Sin merge conflicts nunca
-- Sin fetch/pull necesario
+**Un archivo. Todo resuelto. Zero bullshit.**
 
 ## 📊 Stats
 
-- **Frecuencia**: 1 minuto
-- **Uptime**: 99.9% con auto-restart  
-- **Recovery**: < 30 segundos
-- **Nueva máquina**: < 2 minutos setup completo
-- **Archivos**: ~10-15 monitoreados
+- **Archivos**: 1 solo script (`install.sh`)
+- **Carpetas extras**: 0 (eliminada `scripts/`)  
+- **Frecuencia**: 1 minuto sync automático
+- **Conflictos**: 0 (force push siempre)
+- **Nueva máquina**: 2 comandos, listo
+- **Actualizar**: 1 comando, listo
 
 ---
 
-**🤖 Claude Code Assistant - Version 3.2**  
-*Sync cada 1 minuto - Force push always wins*
+**🤖 Version 3.3 - UN SOLO SCRIPT PARA TODO**  
+*Zero folders. Zero bullshit. Just works.*
