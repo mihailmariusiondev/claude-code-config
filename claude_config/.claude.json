@@ -856,6 +856,10 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "ok ahora sigue el flujo",
+          "pastedContents": {}
+        },
+        {
           "display": "cambia para que sea cada minuto, añadee en la documentacion el flujo exacto para actualizar el servicio: primero detenerlo, luego lanzar el script install service otra vez",
           "pastedContents": {}
         },
@@ -1289,10 +1293,6 @@
         },
         {
           "display": "pero no me des la puta razon sin mas dime que necesitaba que fuera critico realmente no uses mcps solo dimelo y restaura lo que habia antes NO USES MCPS",
-          "pastedContents": {}
-        },
-        {
-          "display": "pero no me des la puta razon sin mas dime que necesitaba que fuera critico realmente",
           "pastedContents": {}
         }
       ],
