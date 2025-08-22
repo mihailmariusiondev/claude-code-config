@@ -836,6 +836,10 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "si va sin sudo sin sudo , debe ser un camaleon y adaptarse a TODO , la idea es ejecutar este script en cualquier puta maquina y me sincronice sola contra mi vps cada tiempo ",
+          "pastedContents": {}
+        },
+        {
           "display": "nono debe ser automatico claro, pero pa esto necesito root o polladas ? algun impedimento ? me dara por culo como git  con la congfigs como ayy no puedo pushear no tienes token ayyy no se cuantas ayyy no tienes root ",
           "pastedContents": {}
         },
@@ -1264,10 +1268,6 @@
         },
         {
           "display": "por que coño SIGUE SIN HACER PUSH DE LOS CAMBIOS",
-          "pastedContents": {}
-        },
-        {
-          "display": "update readme please esta desfasado",
           "pastedContents": {}
         }
       ],
