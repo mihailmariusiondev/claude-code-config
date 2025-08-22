@@ -7,7 +7,7 @@ Servicio systemd de calidad producción que mantiene tu configuración Claude Co
 ## 🎯 Características v3.0
 
 - ✅ **Calidad producción** - Error handling completo, validaciones exhaustivas
-- ✅ **Sincronización automática** cada 5 minutos
+- ✅ **Sincronización automática** cada 1 minuto
 - ✅ **Rutas 100% dinámicas** - Funciona en cualquier máquina/usuario
 - ✅ **Logging completo** - Cada operación logged con detalles  
 - ✅ **Auto-inicio** al arrancar WSL/Linux
@@ -62,6 +62,25 @@ cd ~/repos/personal/claude-code-config  # (o donde tengas el repo)
 
 ## 🔧 Gestión del Servicio
 
+### 🔄 Actualizar el Servicio
+
+**Para aplicar cambios en los scripts (sync.sh, install-service.sh):**
+
+```bash
+# 1. Detener el servicio actual
+sudo systemctl stop claude-sync.service
+
+# 2. Ejecutar el script de instalación para actualizar
+./scripts/install-service.sh
+
+# El script automáticamente:
+# - Recarga la configuración de systemd
+# - Habilita el servicio con los nuevos cambios
+# - Inicia el servicio actualizado
+```
+
+**⚠️ IMPORTANTE:** Siempre usar este flujo completo para actualizar el servicio. Solo reiniciar (`restart`) no aplica cambios en los archivos de script.
+
 ### Comandos Básicos
 ```bash
 # Estado del servicio
@@ -75,7 +94,7 @@ tail -f logs/sync.log           # Sincronización
 tail -f logs/install-service.log  # Instalación  
 tail -f logs/restore.log        # Restauración
 
-# Reiniciar servicio
+# Reiniciar servicio (solo para problemas temporales)
 sudo systemctl restart claude-sync.service
 
 # Parar/Iniciar servicio
@@ -117,13 +136,13 @@ cat logs/restore.log | grep "SUCCESS"   # Todo lo restaurado
 
 ```mermaid
 graph LR
-    A[Cada 5 min] --> B[Validar fuentes ~/.claude/]
+    A[Cada 1 min] --> B[Validar fuentes ~/.claude/]
     B --> C[Copiar directo → claude_config/]
     C --> D[Validar JSON + integridad]
     D --> E[Detectar cambios git]
     E --> F{¿Hay cambios?}
     F -->|Sí| G[Git commit + push con retry]
-    F -->|No| H[Log stats + esperar 5 min]
+    F -->|No| H[Log stats + esperar 1 min]
     G --> H
     H --> A
 ```
@@ -243,10 +262,9 @@ ls -lh logs/sync.log
 
 ### Cambiar frecuencia de sync
 ```bash
-# Editar sync.sh (buscar sleep 300)
-sed -i 's/sleep 300/sleep 600/' scripts/sync.sh  # 10 minutos
-# o para 1 minuto:
-sed -i 's/sleep 300/sleep 60/' scripts/sync.sh   # 1 minuto
+# Editar sync.sh (buscar sleep 60)
+sed -i 's/sleep 60/sleep 300/' scripts/sync.sh   # 5 minutos
+sed -i 's/sleep 60/sleep 600/' scripts/sync.sh   # 10 minutos
 
 # Reiniciar servicio para aplicar
 sudo systemctl restart claude-sync.service
@@ -275,7 +293,7 @@ copy_file "$CLAUDE_DIR/mi-config-personal.json" "$CONFIG_DIR/mi-config-personal.
         │                           │                       │
         │                           │                       │
    ✅ Never touched            git commits            auto force push
-   directly by sync        (every 5 min if           (with retry)
+   directly by sync        (every 1 min if           (with retry)
    (only reads)             changes detected)        
                                    │
                               ┌─────────┐
@@ -295,7 +313,7 @@ copy_file "$CLAUDE_DIR/mi-config-personal.json" "$CONFIG_DIR/mi-config-personal.
 ## 📊 Estadísticas v3.1
 
 - **Repositorio**: https://github.com/mihailmariusiondev/claude-code-config
-- **Frecuencia sync**: 5 minutos (configurable)
+- **Frecuencia sync**: 1 minuto (configurable)
 - **Calidad**: Producción optimizada, restore.sh 100% funcional
 - **Uptime objetivo**: 99.9% con auto-restart
 - **Tiempo recuperación**: < 30 segundos (nueva máquina: < 2 minutos)
@@ -317,7 +335,7 @@ Este es un repositorio personal de configuración. Para mejoras:
 
 - **v1.0.0** (2025-08-20) - Implementación inicial con servicio systemd
 - **v1.0.1** (2025-08-20) - Correcciones rutas y manejo errores MCPs
-- **v2.0.0** (2025-08-20) - Reorganización: scripts/, staging, 5 min sync
+- **v2.0.0** (2025-08-20) - Reorganización: scripts/, staging, 1 min sync
 - **v2.1.0** (2025-08-20) - Arreglado flujo staging, reemplazado jq por python3
 - **v3.0.0** (2025-08-21) - 🚀 **MAJOR UPGRADE**: 
   - ✅ Calidad producción enterprise

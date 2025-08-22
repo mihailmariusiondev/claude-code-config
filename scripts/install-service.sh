@@ -347,7 +347,7 @@ echo "  • Detener:        sudo systemctl stop claude-sync.service"
 echo "  • Deshabilitar:   sudo systemctl disable claude-sync.service"
 echo "  • Ver log instalación: cat $LOG_FILE"
 echo ""
-log_info "El servicio sincronizará automáticamente cada 5 minutos"
+log_info "El servicio sincronizará automáticamente cada 1 minuto"
 log_info "=== Instalación completada exitosamente a las $(date) ==="
 
 # Verificación final de logs

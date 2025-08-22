@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail  # Strict mode: exit on error, undefined vars, pipe failures
 # Claude Code Config Auto-Sync Script
-# Sincroniza configuración cada 5 minutos
+# Sincroniza configuración cada 1 minuto
 
 # Auto-detectar rutas dinámicas
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -199,10 +199,10 @@ while true; do
     fi
 
     # Esperar 5 minutos con posibilidad de interrupción
-    log "⏱️ Waiting 5 minutes until next sync..."
+    log "⏱️ Waiting 1 minute until next sync..."
 
     # Sleep con señales manejables
-    for i in {1..300}; do
+    for i in {1..60}; do
         sleep 1
         # Verificar si el proceso debe terminar cada 60 segundos
         if [ $((i % 60)) -eq 0 ]; then
