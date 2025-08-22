@@ -9,9 +9,9 @@ DEST_PATH="claude-configs/$MACHINE"
 
 echo "🔄 Sincronizando $MACHINE a VPS..."
 
-# rsync simple y efectivo
+# rsync simple y efectivo  
 rsync -avz --delete \
-    -e "ssh -i ~/.ssh/claude_key -o StrictHostKeyChecking=no" \
+    -e "ssh -i ~/.ssh/claude_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
     ~/.claude/ ~/.claude.json \
     $VPS:~/$DEST_PATH/
 
