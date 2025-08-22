@@ -161,6 +161,8 @@ tail -f logs/sync.log
 
 ## 🆘 Troubleshooting Guide
 
+**📋 Para problemas detallados ver: [TROUBLESHOOTING.md](TROUBLESHOOTING.md)**
+
 ### **Problemas Comunes**
 
 **❌ Error: "sudo: a password is required"**
