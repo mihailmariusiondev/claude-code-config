@@ -836,6 +836,10 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "pero vamos a ver me estas volviendo loco en qeu lo dejamos todo ? haz todo el trabajo qeu tengas que hacer no me hagas pedirte mas cosas, damelo LISTO CON TODO",
+          "pastedContents": {}
+        },
+        {
           "display": "y que coño hay que hacer ?",
           "pastedContents": {}
         },
@@ -1258,10 +1262,6 @@
         },
         {
           "display": "en la raiz aun quedan ficheros que no deberian estar",
-          "pastedContents": {}
-        },
-        {
-          "display": "no, no quiero rebase ni merge , push directo force ",
           "pastedContents": {}
         }
       ],
