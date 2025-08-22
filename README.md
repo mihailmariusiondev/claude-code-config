@@ -1,5 +1,43 @@
 # Claude Code Configuration - Auto Sync v4.0
 
+## 🎯 **NUEVO OBJETIVO: Sync Rsync Multi-Máquina**
+
+**IDEA FINAL**: Cambiar de git complejo a rsync simple para sincronizar cada máquina a su propia carpeta en VPS remota.
+
+### **Concepto**
+```bash
+# CADA MÁQUINA → SU PROPIA CARPETA EN VPS
+~/.claude/        →  VPS:/home/claude-user/claude-configs/WSL-UBUNTU-mihai-usl/
+~/.claude.json    →  VPS:/home/claude-user/claude-configs/WSL-UBUNTU-mihai-usl/
+
+# OTRO EJEMPLO (PC personal):
+~/.claude/        →  VPS:/home/claude-user/claude-configs/DESKTOP-FK10VPS-mihai-usl/
+~/.claude.json    →  VPS:/home/claude-user/claude-configs/DESKTOP-FK10VPS-mihai-usl/
+```
+
+### **Requisitos del Sistema Final**
+- ✅ **Auto-detección dinámica**: `$(hostname)-$(whoami)` genera carpeta única
+- ✅ **Rsync robusto**: Resistente a reinicios, fallos de red, todo
+- ✅ **Cron automático**: Cada minuto, se restaura al reiniciar  
+- ✅ **SSH keys limpias**: Nombres descriptivos, estructura ordenada
+- ✅ **Zero configuración**: Solo ejecutar script y funciona
+- ✅ **Multi-máquina**: PC personal, WSL laboral, cualquier máquina
+
+### **Ventajas vs Git Actual**
+| Rsync Simple | Git Complejo |
+|--------------|--------------|
+| ✅ Sin conflictos merge | ❌ Conflictos constantes |
+| ✅ Sin tokens/permisos | ❌ Auth issues |
+| ✅ 15 líneas código | ❌ 400+ líneas |
+| ✅ Funciona siempre | ❌ Falla por configuración |
+| ✅ Setup rápido | ❌ Dependencias múltiples |
+
+---
+
+**⚠️ NOTA**: El sistema git Python de abajo está siendo reemplazado por solución rsync simple y robusta.
+
+---
+
 **🐍 Enterprise Python Edition - Production Grade**
 
 Sistema completo de sincronización automática de configuración Claude Code con calidad producción, logging exhaustivo y resistencia total a fallos.
