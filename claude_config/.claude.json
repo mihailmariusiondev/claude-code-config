@@ -856,6 +856,10 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "actualiza readme y docs con todo , se podria simplificar mas aun todo este proceso ? que sea straightforward",
+          "pastedContents": {}
+        },
+        {
           "display": "peero para que todo eso si el force push se la suda todo?",
           "pastedContents": {}
         },
@@ -1289,10 +1293,6 @@
         },
         {
           "display": "pero desde cuando un puto servicio necesita eso?",
-          "pastedContents": {}
-        },
-        {
-          "display": "LEE todos los logs porque no esta empujando automaticamente",
           "pastedContents": {}
         }
       ],
