@@ -836,6 +836,10 @@
       "allowedTools": [],
       "history": [
         {
+          "display": "nono debe ser automatico claro, pero pa esto necesito root o polladas ? algun impedimento ? me dara por culo como git  con la congfigs como ayy no puedo pushear no tienes token ayyy no se cuantas ayyy no tienes root ",
+          "pastedContents": {}
+        },
+        {
           "display": "es mas debe ser compeltamente dinamico, el nombre de la maquina variable que se lo pille desded la mquina que lo ejecuta, el nombre de la carpeta tambien, pero deberia estar en una carpeta destino si o si (home/claude-configs/<carpeta_maquina>) de tal forma que se atan simple como lanzar el script y ya sincronice facilmente, no sesi me epxslico, esto funcionaria ? como seria ?",
           "pastedContents": {}
         },
@@ -1264,10 +1268,6 @@
         },
         {
           "display": "update readme please esta desfasado",
-          "pastedContents": {}
-        },
-        {
-          "display": "/compact ",
           "pastedContents": {}
         }
       ],
