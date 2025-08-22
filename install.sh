@@ -14,16 +14,28 @@ echo ""
 #=============================================================================
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$SCRIPT_DIR"
-CLAUDE_DIR="$HOME/.claude"
+# Detectar directorio home del usuario real
+if [[ -n "${SUDO_USER:-}" ]]; then
+    USER_HOME="$(getent passwd "$SUDO_USER" | cut -d: -f6)"
+else
+    USER_HOME="$HOME"
+fi
+CLAUDE_DIR="$USER_HOME/.claude"
 CONFIG_DIR="$REPO_DIR/claude_config"
 SERVICE_FILE="/etc/systemd/system/claude-sync.service"
-CURRENT_USER="$(whoami)"
+# Detectar usuario real (cuando se ejecuta con sudo)
+if [[ -n "${SUDO_USER:-}" ]]; then
+    CURRENT_USER="$SUDO_USER"
+else
+    CURRENT_USER="$(whoami)"
+fi
 
 #=============================================================================
 # VALIDACIONES BÁSICAS
 #=============================================================================
-if [[ $EUID -eq 0 ]]; then
-    echo "❌ No ejecutar como root"
+# Permitir sudo para operaciones systemd, pero alertar si es root directo
+if [[ $EUID -eq 0 ]] && [[ -z "${SUDO_USER:-}" ]]; then
+    echo "❌ No ejecutar como root directo. Usa: sudo ./install.sh"
     exit 1
 fi
 
@@ -85,10 +97,10 @@ if [ -f "$CONFIG_DIR/.claude.json" ]; then
     echo "📋 Procesando .claude.json..."
     
     if python3 -c "import json; json.load(open('$CONFIG_DIR/.claude.json'))" 2>/dev/null; then
-        if [ -f "$HOME/.claude.json" ]; then
+        if [ -f "$USER_HOME/.claude.json" ]; then
             # Backup único
-            if [ ! -f "$HOME/.claude.json.backup" ]; then
-                cp "$HOME/.claude.json" "$HOME/.claude.json.backup"
+            if [ ! -f "$USER_HOME/.claude.json.backup" ]; then
+                cp "$USER_HOME/.claude.json" "$USER_HOME/.claude.json.backup"
                 echo "✅ Backup creado"
             fi
             
@@ -99,13 +111,13 @@ try:
     with open('$CONFIG_DIR/.claude.json', 'r') as f:
         config_data = json.load(f)
     
-    with open('$HOME/.claude.json', 'r') as f:
+    with open('$USER_HOME/.claude.json', 'r') as f:
         user_data = json.load(f)
     
     if 'mcpServers' in config_data:
         user_data['mcpServers'] = config_data['mcpServers']
         
-        with open('$HOME/.claude.json', 'w') as f:
+        with open('$USER_HOME/.claude.json', 'w') as f:
             json.dump(user_data, f, indent=2)
         print('✅ MCP servers fusionados')
     else:
@@ -116,8 +128,8 @@ except Exception as e:
 "
         else
             # Copiar completo
-            cp "$CONFIG_DIR/.claude.json" "$HOME/.claude.json"
-            chmod 600 "$HOME/.claude.json"
+            cp "$CONFIG_DIR/.claude.json" "$USER_HOME/.claude.json"
+            chmod 600 "$USER_HOME/.claude.json"
             echo "✅ .claude.json copiado"
         fi
     else
@@ -165,7 +177,7 @@ SyslogIdentifier=claude-sync
 # Security
 NoNewPrivileges=true
 ProtectSystem=strict
-ReadWritePaths=$REPO_DIR $HOME/.claude $HOME/.claude.json
+ReadWritePaths=$REPO_DIR $USER_HOME/.claude $USER_HOME/.claude.json
 ProtectHome=read-only
 
 [Install]
@@ -211,7 +223,7 @@ if [[ "${1:-}" == "--daemon" ]]; then
         [ -f "$CLAUDE_DIR/settings.json" ] && cp "$CLAUDE_DIR/settings.json" "$CONFIG_DIR/settings.json" 2>/dev/null
         [ -f "$CLAUDE_DIR/CLAUDE.md" ] && cp "$CLAUDE_DIR/CLAUDE.md" "$CONFIG_DIR/CLAUDE.md" 2>/dev/null  
         [ -f "$CLAUDE_DIR/CLAUDE_CODE_REFERENCE.md" ] && cp "$CLAUDE_DIR/CLAUDE_CODE_REFERENCE.md" "$CONFIG_DIR/CLAUDE_CODE_REFERENCE.md" 2>/dev/null
-        [ -f "$HOME/.claude.json" ] && cp "$HOME/.claude.json" "$CONFIG_DIR/.claude.json" 2>/dev/null
+        [ -f "$USER_HOME/.claude.json" ] && cp "$USER_HOME/.claude.json" "$CONFIG_DIR/.claude.json" 2>/dev/null
         [ -d "$CLAUDE_DIR/commands" ] && cp -r "$CLAUDE_DIR/commands" "$CONFIG_DIR/" 2>/dev/null
         [ -d "$CLAUDE_DIR/agents" ] && cp -r "$CLAUDE_DIR/agents" "$CONFIG_DIR/" 2>/dev/null
         
