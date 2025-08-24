@@ -108,6 +108,7 @@
   "enableAllProjectMcpServers": true,
   "statusLine": {
     "type": "command",
-    "command": "BRANCH=$(git branch --show-current 2>/dev/null); TIME=$(date +%H:%M); MODEL=$(claude --version 2>/dev/null | grep -o 'claude-[^[:space:]]*' | head -1 || echo 'claude'); if [ -n \"$BRANCH\" ]; then printf \"\\033[37m%s\\033[0m \\033[36m%s\\033[0m@\\033[33m%s\\033[0m \\033[32m%s\\033[0m \\033[35m%s\\033[0m \\033[34m%s\\033[0m\" \"$TIME\" \"$(whoami)\" \"$(hostname -s)\" \"$(basename $(pwd))\" \"$BRANCH\" \"$MODEL\"; else printf \"\\033[37m%s\\033[0m \\033[36m%s\\033[0m@\\033[33m%s\\033[0m \\033[32m%s\\033[0m \\033[34m%s\\033[0m\" \"$TIME\" \"$(whoami)\" \"$(hostname -s)\" \"$(basename $(pwd))\" \"$MODEL\"; fi"
+    "command": "~/.claude/statusline.sh",
+    "padding": 0
   }
 }
